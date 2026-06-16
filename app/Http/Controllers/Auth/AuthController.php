@@ -41,4 +41,12 @@ class AuthController extends Controller
             data: $user
         );
     }
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return ApiResponse::success(
+            message: 'User is successfully logged out.',
+            status: Response::HTTP_OK
+        );
+    }
 }
