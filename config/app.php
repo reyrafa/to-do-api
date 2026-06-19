@@ -98,6 +98,8 @@ return [
     'cipher' => 'AES-256-CBC',
 
     'key' => env('APP_KEY'),
+    'gemini' => env('GEMINI_API_KEY'),
+    'groq' => env('GROQ_API_KEY'),
 
     'previous_keys' => [
         ...array_filter(

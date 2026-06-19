@@ -10,7 +10,8 @@ Route::prefix('/v1')->group(function () {
     Route::post('register', [AuthController::class, 'register'])->middleware('throttle:register');
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::resource('tasks', TaskController::class);
+        Route::post('/tasks', [TaskController::class, 'store']);
+        Route::get('/tasks', [TaskController::class, 'show']);
         Route::post('logout', [AuthController::class, 'logout']);
     });
 
