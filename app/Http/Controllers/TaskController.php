@@ -69,8 +69,20 @@ class TaskController extends Controller
         );
     }
 
-    public function delete()
+    public function delete($uuid)
     {
-
+        $task = Task::where('uuid', $uuid)->first();
+        if (!$task) {
+            return ApiResponse::error(
+                message: 'Not Found',
+                status: Response::HTTP_NOT_FOUND
+            );
+        }
+        $this->authorize('delete', $task);
+        $task->delete();
+        return ApiResponse::success(
+            message: 'deleted successfully',
+            status: Response::HTTP_OK
+        );
     }
 }
