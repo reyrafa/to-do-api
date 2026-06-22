@@ -13,6 +13,7 @@ Route::prefix('/v1')->group(function () {
         Route::post('/tasks', [TaskController::class, 'store']);
         Route::get('/tasks', [TaskController::class, 'show']);
         Route::put('/tasks/{task}', [TaskController::class, 'update']);
+        Route::get('/tasks/{task}', [TaskController::class, 'view']);
         Route::post('logout', [AuthController::class, 'logout']);
 
     });

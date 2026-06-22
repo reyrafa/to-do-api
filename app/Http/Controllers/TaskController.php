@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\AiService;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class TaskController extends Controller
 
     public function show(Request $request)
     {
-        return $request->user()->tasks;
+        return TaskResource::collection($request->user()->tasks);
     }
 
     public function store(StoreRequest $request, AiService $gemini)
@@ -47,6 +48,24 @@ class TaskController extends Controller
         return ApiResponse::success(
             status: Response::HTTP_OK,
             data: $updatedTask
+        );
+    }
+
+    public function view($uuid)
+    {
+        $task = Task::where('uuid', $uuid)->first();
+        $task->load('user');
+        if (!$task) {
+            return ApiResponse::error(
+                message: 'Task cannot be found',
+                status: Response::HTTP_NOT_FOUND,
+            );
+        }
+        $this->authorize('view', $task);
+        return ApiResponse::success(
+            message: 'Task successfully fetched',
+            status: Response::HTTP_OK,
+            data: new TaskResource($task)
         );
     }
 
