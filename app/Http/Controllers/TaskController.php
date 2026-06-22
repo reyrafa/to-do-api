@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Task\StoreRequest;
+use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Task;
 use App\Services\AiService;
 use Illuminate\Http\Request;
@@ -37,9 +38,16 @@ class TaskController extends Controller
         );
     }
 
-    public function update($uuid)
+    public function update(UpdateRequest $request, $uuid)
     {
-       $task = Task::where('uuid', $uuid)->get();
+        $validatedRequest = $request->validated();
+        $task = Task::where('uuid', $uuid)->first();
+        $this->authorize('update', $task);
+        $updatedTask = $task->update($validatedRequest);
+        return ApiResponse::success(
+            status: Response::HTTP_OK,
+            data: $updatedTask
+        );
     }
 
     public function delete()
