@@ -8,7 +8,7 @@ class ApiResponse
         mixed $data = []
     ) {
         return response()->json([
-            'success' => 'true',
+            'success' => true,
             'message' => $message,
             'data' => $data
         ], $status);
@@ -20,7 +20,7 @@ class ApiResponse
         array $errors = []
     ) {
         return response()->json([
-            'success' => 'false',
+            'success' => false,
             'message' => $message,
             'errors' => $errors
         ], $status);
