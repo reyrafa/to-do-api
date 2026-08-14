@@ -15,6 +15,7 @@ class TaskResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'uuid' => $this->uuid,
             'user' => new UserResource($this->whenLoaded('user')),
             'due_date' => $this->due_date,
