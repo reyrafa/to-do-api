@@ -101,6 +101,6 @@ class AiService
         $content = trim($content);
         $tasks = json_decode($content, true);
 
-        return $tasks;
+        return $content;
     }
 }
