@@ -88,7 +88,7 @@ class AiService
 
         $response = Http::withToken(config('app.groq'))
             ->post('https://api.groq.com/openai/v1/chat/completions', [
-                'model' => 'llama-3.3-70b-versatile',
+                'model' => 'openai/gpt-oss-20b',
                 'messages' => [
                     [
                         'role' => 'user',
@@ -96,12 +96,12 @@ class AiService
                     ]
                 ]
             ]);
-        dd($response->json());
+        
         $content = $response->json()['choices'][0]['message']['content'];
         $content = str_replace(['```json', '```'], '', $content);
         $content = trim($content);
         $tasks = json_decode($content, true);
-
+        return $tasks;
 
     }
 }
