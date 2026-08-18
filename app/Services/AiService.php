@@ -96,11 +96,12 @@ class AiService
                     ]
                 ]
             ]);
+        dd($response->json());
         $content = $response->json()['choices'][0]['message']['content'];
         $content = str_replace(['```json', '```'], '', $content);
         $content = trim($content);
         $tasks = json_decode($content, true);
 
-         dd($content);
+
     }
 }
